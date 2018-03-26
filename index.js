@@ -18,7 +18,7 @@ request(wxTokenUrl, function (error, response, body) {
   request(ticketUrl, function (error, response, body) {
 	  ticket = body.ticket;
 	  console.log('ticket',ticket);
-  }
+  })
 });
 
 
