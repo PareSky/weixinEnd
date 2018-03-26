@@ -1,0 +1,15 @@
+获取“分享到朋友圈”按钮点击状态及自定义分享内容接口
+https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
+
+
+get token:
+https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7
+
+ACCESS_TOKEN:
+8_5AMIPsnJ0Jq6DQw2oVdmeb76VI6E79DF92rnw0pmHnw7iPzxO6TphTa80waZuNOwZp3QC9psmdKwHKsCRMALx18qzySe2GQ9xRCPI9RA79Q1QsmymtYuALWrwz3HIy1bqPQIJJBK4GRMu4KFQPAbACALKV
+
+get ticket:
+https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=ACCESS_TOKEN&type=jsapi
+
+ticket:
+kgt8ON7yVITDhtdwci0qeabhXapa-TKw3RE87QUE9tHveJkYEtzWLKKRCvw7kHzjSRj6iUI3ZgArQqlCDj0Ysg
