@@ -11,14 +11,16 @@ let wxToken = '';
 let ticket = '';
 
 request(wxTokenUrl, function (error, response, body) {
-  wxToken = body.access_token;
-  console.log('wxToken',wxToken);
-  
-  let ticketUrl = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='+ wxToken;
-  request(ticketUrl, function (error, response, body) {
-	  ticket = body.ticket;
-	  console.log('ticket',ticket);
-  })
+	console.log('body',body);
+	wxToken = body.access_token;
+	console.log('wxToken',wxToken);
+
+	let ticketUrl = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='+ wxToken;
+	request(ticketUrl, function (error, response, body) {
+		console.log('body',body);
+		ticket = body.ticket;
+		console.log('ticket',ticket);
+	})
 });
 
 
