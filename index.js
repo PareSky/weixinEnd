@@ -11,15 +11,15 @@ let wxToken = '';
 let ticket = '';
 
 request(wxTokenUrl, function (error, response, body) {
-        let jbody = JSON.parse(body)
+    let jbody = JSON.parse(body)
 	console.log('body',jbody);
 	wxToken = jbody.access_token;
 	console.log('wxToken',wxToken);
 
 	let ticketUrl = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='+ wxToken;
 	request(ticketUrl, function (error, response, body) {
-let jbody = JSON.parse(body)		
-console.log('body',jbody);
+		let jbody = JSON.parse(body)		
+		console.log('body',jbody);
 		ticket = jbody.ticket;
 		console.log('ticket',ticket);
 	})
