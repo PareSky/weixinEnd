@@ -8,13 +8,17 @@ const app = new Koa();
 const wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
 
 let wxToken = '';
+let ticket = '';
 
 request(wxTokenUrl, function (error, response, body) {
-  console.log('error:', error); // Print the error if one occurred
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  console.log('body:', body); // Print the HTML for the Google homepage.
-  wxToken = body.ACCESS_TOKEN;
+  wxToken = body.access_token;
   console.log('wxToken',wxToken);
+  
+  let ticketUrl = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='+ wxToken;
+  request(ticketUrl, function (error, response, body) {
+	  ticket = body.ticket;
+	  console.log('ticket',ticket);
+  }
 });
 
 
