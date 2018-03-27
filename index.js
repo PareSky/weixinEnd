@@ -74,10 +74,11 @@ async function route( url,ctx ) {
 	  if(hashCode == ctx.query.signature){
 		  html = ctx.query.echostr
 	  }
-  }else if(/\/weixin\/get_jsapi_signature_json/.test(url)){
+  }
+  else if(/\/weixin\/get_jsapi_signature_json/.test(url)){
 	  let noncestr = randomString(16);
 	  let timestamp = createTimestemp();
-	  let urlPure = ('http://47.106.76.166'+url).split('#')[0];
+	  let urlPure = ctx.url.split('#')[0];
 	  let s = {
 		  noncestr: '',
 		  timestamp: '',
