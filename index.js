@@ -5,13 +5,33 @@ const sha1 = require('sha1')
 
 const app = new Koa();
 
-const wxTokenUrl     = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
-const wxTokenUrlTest = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe5507486c135d74e&secret=b64a7f6c3ef4f59fcc0b3f357c392c16';
+const testPlat = false;
 
+if(testPlat){
+	const appid = 'wxe5507486c135d74e';
+	const wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe5507486c135d74e&secret=b64a7f6c3ef4f59fcc0b3f357c392c16';
+}else{
+	const appid = 'wxeb9a8806ee587ed5';
+	const wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
+}
 let wxToken = '';
 let ticket = '';
 
-request(wxTokenUrlTest, function (error, response, body) {
+function randomString(len) {
+　　len = len || 32;
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; 
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return pwd;
+}
+function createTimestemp(){
+	return Math.round(new Date().getTime()/1000);
+}
+
+request(wxTokenUrl, function (error, response, body) {
     let jbody = JSON.parse(body);
 	wxToken = jbody.access_token;
 	console.log('wxToken',wxToken);
@@ -23,41 +43,6 @@ request(wxTokenUrlTest, function (error, response, body) {
 		console.log('ticket',ticket);
 	})
 	
-	//自定义菜单
-	let createMenu = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+ wxToken;
-	let data = {
-     "button":[
-     {    
-          "type":"click",
-          "name":"今日歌曲",
-          "key":"V1001_TODAY_MUSIC"
-      },
-      {
-           "name":"菜单",
-           "sub_button":[
-           {    
-               "type":"view",
-               "name":"搜索",
-               "url":"http://www.soso.com/"
-            },
-            {
-                 "type":"miniprogram",
-                 "name":"wxa",
-                 "url":"http://mp.weixin.qq.com",
-                 "appid":"wx286b93c14bbf93aa",
-                 "pagepath":"pages/lunar/index"
-             },
-            {
-               "type":"click",
-               "name":"赞一下我们",
-               "key":"V1001_GOOD"
-            }]
-       }]
-	};
-	request.post({url:createMenu, form: data}, function(err,httpResponse,body){ 
-		let jbody = JSON.parse(body)
-		console.log('createMenu',jbody)	
-		})
 });
 
 
@@ -69,13 +54,13 @@ request(wxTokenUrlTest, function (error, response, body) {
 async function route( url,ctx ) {
   let html = 'hello route'
   if (/wxtest/.test(url)){
-	  html = {
+	  let s = {
 		  signature: ctx.query.signature,
 		  echostr: ctx.query.echostr,
 		  timestamp: ctx.query.timestamp,
 		  nonce: ctx.query.nonce,
 	  }
-	  console.log(html)
+	  console.log(s)
 	  let token = 'jiioosdf'
 	  let list = [token, ctx.query.timestamp, ctx.query.nonce]
 	  list.sort()
@@ -86,6 +71,24 @@ async function route( url,ctx ) {
 	  if(hashCode == ctx.query.signature){
 		  html = ctx.query.echostr
 	  }
+  }else if(/\/weixin\/get_jsapi_signature_json/.test(url){
+	  let noncestr = randomString(16);
+	  let timestamp = createTimestemp();
+	  let s = {
+		  noncestr: '',
+		  timestamp: '',
+		  url: '',
+		  jsapi_ticket: ticket
+	  }
+	  let string1 = 'jsapi_ticket='+ ticket + '&noncestr'+ noncestr +'&timestamp'+ timestamp +'&url'+ url;
+	  let hashCode = sha1(string1);
+	  html = {
+		  appId: appid,
+		  timestamp: timestamp,
+		  signature: hashCode,
+		  nonceStr: noncestr,
+	  }
+	  console.log('html',html)
   }
   return html
 }
