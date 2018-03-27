@@ -84,7 +84,8 @@ async function route( url,ctx ) {
 		  url: '',
 		  jsapi_ticket: ticket
 	  }
-	  let string1 = 'jsapi_ticket='+ ticket + '&noncestr'+ noncestr +'&timestamp'+ timestamp +'&url'+ urlPure;
+	  let string1 = 'jsapi_ticket='+ ticket + '&noncestr='+ noncestr +'&timestamp='+ timestamp +'&url='+ urlPure;
+	  console.log('string1',string1)
 	  let hashCode = sha1(string1);
 	  html ={
 		  code: 0,
