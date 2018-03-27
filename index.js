@@ -5,24 +5,59 @@ const sha1 = require('sha1')
 
 const app = new Koa();
 
-const wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
+const wxTokenUrl     = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
+const wxTokenUrlTest = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe5507486c135d74e&secret=b64a7f6c3ef4f59fcc0b3f357c392c16';
 
 let wxToken = '';
 let ticket = '';
 
-request(wxTokenUrl, function (error, response, body) {
-    let jbody = JSON.parse(body)
-	console.log('body',jbody);
+request(wxTokenUrlTest, function (error, response, body) {
+    let jbody = JSON.parse(body);
 	wxToken = jbody.access_token;
 	console.log('wxToken',wxToken);
 
 	let ticketUrl = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='+ wxToken;
 	request(ticketUrl, function (error, response, body) {
-		let jbody = JSON.parse(body)		
-		console.log('body',jbody);
+		let jbody = JSON.parse(body)
 		ticket = jbody.ticket;
 		console.log('ticket',ticket);
 	})
+	
+	//自定义菜单
+	let createMenu = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='+ wxToken;
+	let data = {
+     "button":[
+     {    
+          "type":"click",
+          "name":"今日歌曲",
+          "key":"V1001_TODAY_MUSIC"
+      },
+      {
+           "name":"菜单",
+           "sub_button":[
+           {    
+               "type":"view",
+               "name":"搜索",
+               "url":"http://www.soso.com/"
+            },
+            {
+                 "type":"miniprogram",
+                 "name":"wxa",
+                 "url":"http://mp.weixin.qq.com",
+                 "appid":"wx286b93c14bbf93aa",
+                 "pagepath":"pages/lunar/index"
+             },
+            {
+               "type":"click",
+               "name":"赞一下我们",
+               "key":"V1001_GOOD"
+            }]
+       }]
+	};
+	request.post({url:createMenu, form: data}, function(err,httpResponse,body){ 
+		let jbody = JSON.parse(body)
+		console.log('createMenu',jbody)	
+		})
 });
 
 
