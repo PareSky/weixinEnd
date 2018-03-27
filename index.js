@@ -77,13 +77,14 @@ async function route( url,ctx ) {
   }else if(/\/weixin\/get_jsapi_signature_json/.test(url)){
 	  let noncestr = randomString(16);
 	  let timestamp = createTimestemp();
+	  let urlPure = ('http://47.106.76.166'+url).split('#')[0];
 	  let s = {
 		  noncestr: '',
 		  timestamp: '',
 		  url: '',
 		  jsapi_ticket: ticket
 	  }
-	  let string1 = 'jsapi_ticket='+ ticket + '&noncestr'+ noncestr +'&timestamp'+ timestamp +'&url'+ url;
+	  let string1 = 'jsapi_ticket='+ ticket + '&noncestr'+ noncestr +'&timestamp'+ timestamp +'&url'+ urlPure;
 	  let hashCode = sha1(string1);
 	  html ={
 		  code: 0,
