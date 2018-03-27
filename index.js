@@ -5,14 +5,15 @@ const sha1 = require('sha1')
 
 const app = new Koa();
 
-const testPlat = false;
-
+const testPlat = true;
+let appid = ''
+let wxTokenUrl = ''
 if(testPlat){
-	const appid = 'wxe5507486c135d74e';
-	const wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe5507486c135d74e&secret=b64a7f6c3ef4f59fcc0b3f357c392c16';
+	appid = 'wxe5507486c135d74e';
+	wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxe5507486c135d74e&secret=b64a7f6c3ef4f59fcc0b3f357c392c16';
 }else{
-	const appid = 'wxeb9a8806ee587ed5';
-	const wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
+	appid = 'wxeb9a8806ee587ed5';
+	wxTokenUrl = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxeb9a8806ee587ed5&secret=d7a5d082ef5dd03ce172fca7e1d8aaa7';
 }
 let wxToken = '';
 let ticket = '';
