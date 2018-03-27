@@ -85,14 +85,18 @@ async function route( url,ctx ) {
 	  }
 	  let string1 = 'jsapi_ticket='+ ticket + '&noncestr'+ noncestr +'&timestamp'+ timestamp +'&url'+ url;
 	  let hashCode = sha1(string1);
-	  html = {
-		  appId: appid,
-		  timestamp: timestamp,
-		  signature: hashCode,
-		  nonceStr: noncestr,
-	  }
-	  console.log('html',html)
-  }
+	  html ={
+		  code: 0,
+		  message: 'suc',
+		  data:{
+			  appId: appid,
+			  timestamp: timestamp,
+			  signature: hashCode,
+			  nonceStr: noncestr,
+			  }
+		  }
+	}
+	console.log('html',html)
   return html
 }
 
