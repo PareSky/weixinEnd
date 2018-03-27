@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const request = require('request');
 const sha1 = require('sha1')
-
+const serve = require('koa-static');
 
 const app = new Koa();
 
@@ -46,6 +46,8 @@ request(wxTokenUrl, function (error, response, body) {
 	
 });
 
+
+app.use(serve('../wyx'));
 
 /**
  * 根据URL获取HTML内容
