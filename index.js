@@ -47,7 +47,7 @@ request(wxTokenUrl, function (error, response, body) {
 });
 
 
-app.use(serve('../wyx'));
+app.use(serve('../wyx-h5'));
 
 /**
  * 根据URL获取HTML内容
@@ -78,7 +78,7 @@ async function route( url,ctx ) {
   else if(/\/weixin\/get_jsapi_signature_json/.test(url)){
 	  let noncestr = randomString(16);
 	  let timestamp = createTimestemp();
-	  let urlPure = ctx.url.split('#')[0];
+	  let urlPure = ctx.query.url.split('#')[0];
 	  let s = {
 		  noncestr: '',
 		  timestamp: '',
